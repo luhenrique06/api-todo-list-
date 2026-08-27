@@ -34,6 +34,20 @@ app.get('/tarefas', (req, res) => {
   res.json(tarefas);
 });
 
+app.get('/tarefas/:id', (req, res) => {
+  const {id} = req.params;
+  const tarefa = db
+  .prepare('SELECT * FROM tarefas WHERE id = ?')
+  .get(id);
+  
+  if(!tarefa){
+    return res.status(404).json({erro: 'Tarefa não encontrada'});
+  }
+  res.json(tarefa);
+
+});
+
+
 app.listen(3333, () => {
   console.log('Servidor rodando na porta 3333');
 });
